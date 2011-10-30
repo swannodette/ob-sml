@@ -38,13 +38,13 @@
 
 (defvar org-babel-default-header-args:sml '())
 
-(defun get (alist key)
+(defun org-babel-get:sml (alist key)
   (cdr (assoc key alist)))
 
 (defun org-babel-expand-body:sml (body params &optional processed-params)
   "Expand BODY according to PARAMS, return the expanded body."
   (require 'sml-mode)
-  (let ((vars (get (or processed-params
+  (let ((vars (org-babel-get:sml (or processed-params
                        (org-babel-process-params params))
                    :vars)))
     (concat
@@ -60,10 +60,10 @@ called by `org-babel-execute-src-block'"
   (message "executing Standard ML source code block")
   (let* ((processed-params (org-babel-process-params params))
          (session (org-babel-sml-initiate-session
-                   (get processed-params :session)))
-         (vars (get processed-params :vars))
-         (result-params (get processed-params :result-params))
-         (result-type (get processed-params :result-type))
+                   (org-babel-get:sml processed-params :session)))
+         (vars (org-babel-get:sml processed-params :vars))
+         (result-params (org-babel-get:sml processed-params :result-params))
+         (result-type (org-babel-get:sml processed-params :result-type))
          (full-body (org-babel-expand-body:sml
                      body params processed-params)))
     (with-current-buffer (sml-proc-buffer)
