@@ -68,7 +68,7 @@ called by `org-babel-execute-src-block'"
          (result-type (org-babel-get:sml processed-params :result-type))
          (full-body (org-babel-expand-body:sml
                      body params processed-params)))
-    (nth 0
+    (nth 1
      (org-babel-comint-with-output (session org-babel-sml-eoe t body)
        (mapc
         (lambda (line)
