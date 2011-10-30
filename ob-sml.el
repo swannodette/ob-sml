@@ -38,6 +38,8 @@
 
 (defvar org-babel-default-header-args:sml '())
 
+(defvar org-babel-sml-eoe "val it = \"org-babel-sml-eoe\" : string")
+
 (defun org-babel-get:sml (alist key)
   (cdr (assoc key alist)))
 
@@ -66,8 +68,13 @@ called by `org-babel-execute-src-block'"
          (result-type (org-babel-get:sml processed-params :result-type))
          (full-body (org-babel-expand-body:sml
                      body params processed-params)))
-    (with-current-buffer (sml-proc-buffer)
-      (sml-send-string full-body))))
+    (nth 0
+     (org-babel-comint-with-output (session org-babel-sml-eoe t body)
+       (mapc
+        (lambda (line)
+          (insert (org-babel-chomp line))
+          (comint-send-input nil t))
+        (list body "\"org-babel-sml-eoe\";"))))))
 
 (defun org-babel-prep-session:sml (session params)
   "Prepare SESSION according to the header arguments specified in PARAMS."
