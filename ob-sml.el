@@ -89,7 +89,7 @@ then create.  Return the initialized session."
   (require 'sml-mode)
   (or (get-buffer "*sml*")
       (save-window-excursion
-        (run-sml)
+        (call-interactively 'run-sml)
         (sleep-for 0.25)
         (current-buffer))))
 
