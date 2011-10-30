@@ -33,20 +33,14 @@
 (require 'ob-ref)
 (require 'ob-comint)
 (require 'ob-eval)
-;; possibly require modes required for your language
 
-;; optionally define a file extension for this language
 (add-to-list 'org-babel-tangle-lang-exts '("sml" . "sml"))
 
-;; optionally declare default header arguments for this language
 (defvar org-babel-default-header-args:sml '())
 
 (defun get (alist key)
   (cdr (assoc key alist)))
 
-;; This function expands the body of a source code block by doing
-;; things like prepending argument definitions to the body, it should
-;; be called by the `org-babel-execute:sml' function below.
 (defun org-babel-expand-body:sml (body params &optional processed-params)
   "Expand BODY according to PARAMS, return the expanded body."
   (require 'sml-mode)
@@ -60,46 +54,21 @@
                 (car pair) (org-babel-sml-var-to-sml (cdr pair))))
       vars "\n") "\n" body "\n")))
 
-;; This is the main function which is called to evaluate a code
-;; block.
-;;
-;; This function will evaluate the body of the source code and
-;; return the results as emacs-lisp depending on the value of the
-;; :results header argument
-;; - output means that the output to STDOUT will be captured and
-;;   returned
-;; - value means that the value of the last statement in the
-;;   source code block will be returned
-;;
-;; The most common first step in this function is the expansion of the
-;; PARAMS argument using `org-babel-process-params'.
-;;
-;; Please feel free to not implement options which aren't appropriate
-;; for your language (e.g. not all languages support interactive
-;; "session" evaluation).  Also you are free to define any new header
-;; arguments which you feel may be useful -- all header arguments
-;; specified by the user will be available in the PARAMS variable.
 (defun org-babel-execute:sml (body params)
   "Execute a block of Standard ML code with org-babel.  This function is
 called by `org-babel-execute-src-block'"
   (message "executing Standard ML source code block")
   (let* ((processed-params (org-babel-process-params params))
-         ;; set the session if the session variable is non-nil
          (session (org-babel-sml-initiate-session
                    (get processed-params :session)))
-         ;; variables assigned for use in the block
          (vars (get processed-params :vars))
          (result-params (get processed-params :result-params))
-         ;; either OUTPUT or VALUE which should behave as described above
          (result-type (get processed-params :result-type))
-         ;; expand the body with `org-babel-expand-body:sml'
          (full-body (org-babel-expand-body:sml
                      body params processed-params)))
     (with-current-buffer (sml-proc-buffer)
       (sml-send-string full-body))))
 
-;; This function should be used to assign any variables in params in
-;; the context of the session environment.
 (defun org-babel-prep-session:sml (session params)
   "Prepare SESSION according to the header arguments specified in PARAMS."
   session)
