@@ -74,7 +74,7 @@ called by `org-babel-execute-src-block'"
         (lambda (line)
           (insert (org-babel-chomp line))
           (comint-send-input nil t))
-        (list body "\"org-babel-sml-eoe\";"))))))
+        (list body "; \"org-babel-sml-eoe\";"))))))
 
 (defun org-babel-prep-session:sml (session params)
   "Prepare SESSION according to the header arguments specified in PARAMS."
