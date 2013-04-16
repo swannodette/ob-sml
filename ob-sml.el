@@ -81,7 +81,7 @@ called by `org-babel-execute-src-block'"
                 ;; remove leading = from SML/NJ multi-line input
                 (replace-regexp-in-string "^[ =]+" "" (car lines))
                 ;; drop results of eoe-indicator
-                (subseq (cdr lines) 0 (- (length (cdr lines)) 2)))
+                (butlast (cdr lines) 2))
                "\n")))
 
 (defun org-babel-prep-session:sml (session params)
