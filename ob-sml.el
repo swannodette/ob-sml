@@ -38,7 +38,7 @@
 
 (defvar org-babel-default-header-args:sml '())
 
-(defvar org-babel-sml-eoe "val it = \"org-babel-sml-eoe\" : string")
+(defvar org-babel-sml-eoe "stdIn")
 
 (defun org-babel-get:sml (alist key)
   (cdr (assoc key alist)))
@@ -74,7 +74,7 @@ called by `org-babel-execute-src-block'"
                     (lambda (line)
                       (insert (org-babel-chomp line))
                       (comint-send-input nil t))
-                    (list body "; \"org-babel-sml-eoe\";")))))
+                    (list body "; \"stdIn\";")))))
          (lines (split-string results "\n")))
     (mapconcat #'identity
                (cons
