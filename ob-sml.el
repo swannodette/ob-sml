@@ -38,7 +38,7 @@
 
 (defvar org-babel-default-header-args:sml '())
 
-(defvar org-babel-sml-eoe "val it = \"org-babel-sml-eoe\" : string")
+(defvar org-babel-sml-eoe "stdIn")
 
 (defun org-babel-get:sml (alist key)
   (cdr (assoc key alist)))
@@ -67,14 +67,22 @@ called by `org-babel-execute-src-block'"
          (result-params (org-babel-get:sml processed-params :result-params))
          (result-type (org-babel-get:sml processed-params :result-type))
          (full-body (org-babel-expand-body:sml
-                     body params processed-params)))
-    (nth 1
-     (org-babel-comint-with-output (session org-babel-sml-eoe t body)
-       (mapc
-        (lambda (line)
-          (insert (org-babel-chomp line))
-          (comint-send-input nil t))
-        (list body "\"org-babel-sml-eoe\";"))))))
+                     body params processed-params))
+         (results
+          (nth 1 (org-babel-comint-with-output (session org-babel-sml-eoe t body)
+                   (mapc
+                    (lambda (line)
+                      (insert (org-babel-chomp line))
+                      (comint-send-input nil t))
+                    (list body "; \"stdIn\";")))))
+         (lines (split-string results "\n")))
+    (mapconcat #'identity
+               (cons
+                ;; remove leading = from SML/NJ multi-line input
+                (replace-regexp-in-string "^[ =]+" "" (car lines))
+                ;; drop results of eoe-indicator
+                (butlast (cdr lines) 2))
+               "\n")))
 
 (defun org-babel-prep-session:sml (session params)
   "Prepare SESSION according to the header arguments specified in PARAMS."
