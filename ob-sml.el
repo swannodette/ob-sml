@@ -5,7 +5,8 @@
 ;; Author: David Nolen
 ;; Keywords: literate programming, reproducible research
 ;; Homepage: http://orgmode.org
-;; Version: 0.01
+;; Package-Version: 0.01
+;; Package-Requires: ((sml-mode "6.0"))
 
 ;;; License:
 
@@ -23,10 +24,6 @@
 ;; along with GNU Emacs; see the file COPYING.  If not, write to the
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA 02110-1301, USA.
-
-;;; Requirements:
-
-;; sml-mode http://www.smlnj.org/doc/Emacs/sml-mode.html
 
 ;;; Code:
 (require 'ob)
@@ -109,3 +106,4 @@ then create.  Return the initialized session."
         (current-buffer))))
 
 (provide 'ob-sml)
+;;; ob-sml.el ends here
