@@ -40,7 +40,7 @@ ML for the Working Programmer
 ```
 
 Start a `sml` REPL with `M-x run-sml`. You should now be able to place
-your cursor in the code block and evaluate with `C-c C-c`. And the
+your cursor in the code block and evaluate with `C-c C-c` and the
 contents of your `sml.org` file should now look like:
 
 ```
