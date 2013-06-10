@@ -6,7 +6,7 @@
 ;; Keywords: literate programming, reproducible research
 ;; Homepage: http://orgmode.org
 ;; Package-Version: 0.01
-;; Package-Requires: ((sml-mode "6.0"))
+;; Package-Requires: ((sml-mode "6.4"))
 
 ;;; License:
 
