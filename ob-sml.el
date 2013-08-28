@@ -53,6 +53,7 @@
                 (car pair) (org-babel-sml-var-to-sml (cdr pair))))
       vars "\n") "\n" body "\n")))
 
+;;;###autoload
 (defun org-babel-execute:sml (body params)
   "Execute a block of Standard ML code with org-babel.  This function is
 called by `org-babel-execute-src-block'"
