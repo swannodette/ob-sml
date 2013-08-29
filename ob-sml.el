@@ -76,8 +76,8 @@ called by `org-babel-execute-src-block'"
          (lines (split-string results "\n")))
     (mapconcat #'identity
                (cons
-                ;; remove leading = from SML/NJ multi-line input
-                (replace-regexp-in-string "^[ =]+" "" (car lines))
+                ;; remove leading = and - from SML/NJ multi-line input
+                (replace-regexp-in-string "^[ -]*[ =]+" "" (car lines))
                 ;; drop results of eoe-indicator
                 (butlast (cdr lines) 2))
                "\n")))
